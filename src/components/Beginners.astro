@@ -1,0 +1,84 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Escríbenos por WhatsApp",
+    description: "Contáctanos al 099 003 9794 o haz clic en el botón para más información.",
+  },
+  {
+    number: "02",
+    title: "Ven a Conocernos",
+    description: "Visita nuestras nuevas instalaciones en Bolívar entre Lourdes y Catacocha, Loja. Te mostramos todo el espacio.",
+  },
+  {
+    number: "03",
+    title: "Comienza Tu Transformación",
+    description: "Entrena con nosotros desde el primer día con guía profesional. Esto es más que ejercicio, es identidad.",
+  },
+];
+---
+
+<section id="nuevos" class="section-padding bg-dark-light relative overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col lg:flex-row gap-16 items-center">
+      <!-- Content -->
+      <div class="w-full lg:w-1/2">
+        <div class="fade-in-left">
+          <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Primera vez aqu&iacute;?</p>
+          <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight leading-tight mb-6">
+            Tu Nueva<br />Casa Te<br />Espera
+          </h2>
+          <p class="text-white/80 text-lg leading-relaxed mb-12 max-w-lg">
+            No importa tu nivel de experiencia. Leader Gym&reg; es para todos. Nuestro equipo se encarga de que te sientas como en casa desde el primer momento.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          {steps.map((step, i) => (
+            <div
+              class="fade-in flex gap-6 items-start group"
+              style={`transition-delay: ${i * 200}ms`}
+            >
+              <span class="font-heading text-4xl font-bold text-primary/30 group-hover:text-primary transition-colors duration-300 flex-shrink-0">
+                {step.number}
+              </span>
+              <div>
+                <h3 class="font-heading text-xl uppercase tracking-wide mb-2 group-hover:text-primary transition-colors duration-300">
+                  {step.title}
+                </h3>
+                <p class="text-white/70 text-sm leading-relaxed">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="fade-in mt-12">
+          <a
+            href="https://wa.me/593990039794?text=Hola!%20Quiero%20info%20sobre%20Leader%20Gym"
+            target="_blank"
+            rel="noopener"
+            class="btn-primary"
+          >
+            Escr&iacute;benos por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="fade-in-right w-full lg:w-1/2">
+        <div class="relative">
+          <img
+            src="/images/gym1.jpg"
+            alt="Entrenador ayudando a nuevo miembro en Leader Gym"
+            class="w-full aspect-[3/4] object-cover"
+            loading="lazy"
+          />
+          <div class="absolute -bottom-6 -left-6 bg-primary p-8">
+            <p class="font-heading text-4xl font-bold text-dark">+1000</p>
+            <p class="font-heading text-sm tracking-[0.15em] uppercase text-dark">Seguidores confían en nosotros</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

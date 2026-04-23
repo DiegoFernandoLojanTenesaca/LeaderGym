@@ -1,0 +1,67 @@
+---
+const achievements = [
+  {
+    title: "Competencias & Trofeos",
+    description: "Nuestros atletas representan a Leader Gym en competencias de culturismo y fitness a nivel nacional.",
+    image: "/images/premios.jpg",
+    badge: "Campeones",
+  },
+  {
+    title: "Medalla de Oro",
+    description: "Jhandry y Gabriela en el podio. Disciplina, esfuerzo y Figura Extrema dan resultados.",
+    image: "/images/premios2.jpg",
+    badge: "Podio",
+  },
+  {
+    title: "Equipo Ganador",
+    description: "Nuestros competidores con sus trofeos y medallas. El equipo Leader Gym arrasa en cada competencia.",
+    image: "/images/premios3.jpg",
+    badge: "Trofeos",
+  },
+];
+---
+
+<section class="section-padding bg-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-in text-center mb-16">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Resultados reales</p>
+      <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight">
+        Nuestros Logros
+      </h2>
+      <p class="text-white/70 mt-4 max-w-xl mx-auto">
+        La disciplina y el esfuerzo de nuestra comunidad hablan por s&iacute; mismos.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {achievements.map((item, i) => (
+        <div class="fade-in group relative overflow-hidden" style={`transition-delay: ${i * 150}ms`}>
+          <div class="relative aspect-[3/4] overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.title}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/30 to-transparent"></div>
+
+            <div class="absolute top-4 left-4">
+              <span class="bg-primary text-dark text-[10px] font-heading font-bold tracking-widest uppercase px-3 py-1">
+                {item.badge}
+              </span>
+            </div>
+          </div>
+
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="font-heading text-2xl font-bold uppercase tracking-tight mb-2">
+              {item.title}
+            </h3>
+            <p class="text-white/80 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              {item.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

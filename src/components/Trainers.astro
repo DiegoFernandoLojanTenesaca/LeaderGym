@@ -1,0 +1,215 @@
+---
+const trainers = [
+  {
+    name: "Jhandry Febres",
+    role: "Head Coach / Musculación",
+    bio: "Entrenador principal de Leader Gym. Especialista en musculación, fuerza y preparación física de alto rendimiento.",
+    image: "/images/coach-hombre.jpg",
+    specialties: ["Fuerza", "Musculación"],
+  },
+  {
+    name: "Gabriela Tillaguango",
+    role: "Competidora & Coach",
+    bio: "Competidora de culturismo y fitness. Preparación profesional para competencias y transformación corporal.",
+    image: "/images/coach-mujer.jpg",
+    specialties: ["Culturismo", "Prep"],
+  },
+];
+
+const videos = [
+  {
+    src: "/images/team-video.mp4",
+    poster: "/images/poster-team.jpg",
+    label: "Equipo Leader",
+    title: "Nuestro Equipo",
+    desc: "Cada Coach, una especialidad. Un solo objetivo: llevarte a tu mejor versión.",
+    hasAudio: true,
+  },
+  {
+    src: "/images/coach-video.mp4",
+    poster: "/images/poster-coach.jpg",
+    label: "Viral",
+    title: "El Coach en Acción",
+    desc: "El coach pareciera que no entrenara... hasta que lo ves en acción.",
+    hasAudio: false,
+  },
+  {
+    src: "/images/meme-video.mp4",
+    poster: "/images/poster-meme.jpg",
+    label: "Humor",
+    title: "Gym Humor",
+    desc: "Etiqueta a ese coach que en diciembre ya no sabe qué hacer.",
+    hasAudio: true,
+  },
+];
+---
+
+<section class="section-padding bg-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-in text-center mb-16">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Nuestro equipo</p>
+      <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight">
+        Entrenadores
+      </h2>
+      <p class="text-white/70 mt-4 max-w-xl mx-auto">
+        Cada Coach, una especialidad. Un solo objetivo: llevarte a tu mejor versi&oacute;n.
+      </p>
+    </div>
+
+    <!-- Coach Photos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto mb-16">
+      {trainers.map((t, i) => (
+        <div
+          class="fade-in group relative overflow-hidden"
+          style={`transition-delay: ${i * 120}ms`}
+        >
+          <div class="relative aspect-[3/4] overflow-hidden">
+            <img
+              src={t.image}
+              alt={t.name}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/20 to-transparent"></div>
+            <div class="absolute top-4 left-4 flex gap-2">
+              {t.specialties.map(s => (
+                <span class="bg-primary/90 text-dark text-[10px] font-heading font-bold tracking-wider uppercase px-2.5 py-1">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            <p class="font-heading text-xs tracking-[0.2em] uppercase text-primary mb-1">{t.role}</p>
+            <h3 class="font-heading text-2xl font-bold uppercase tracking-tight mb-2">{t.name}</h3>
+            <p class="text-white/70 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">{t.bio}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Video Reels -->
+    <div class="fade-in">
+      <p class="font-heading text-primary text-sm tracking-[0.4em] uppercase mb-6 font-medium text-center">Videos del equipo</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {videos.map((v, i) => (
+          <div
+            class="group relative overflow-hidden bg-dark-card rounded-lg"
+            style={`transition-delay: ${i * 120}ms`}
+          >
+            <div class="relative aspect-[9/16] overflow-hidden">
+              <video
+                class="trainer-video w-full h-full object-cover"
+                muted
+                loop
+                playsinline
+                poster={v.poster}
+                preload="metadata"
+                data-has-audio={v.hasAudio ? "true" : "false"}
+              >
+                <source src={v.src} type="video/mp4" />
+              </video>
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 via-transparent to-transparent pointer-events-none"></div>
+
+              <!-- Play/Pause overlay -->
+              <button class="video-play-btn absolute inset-0 flex items-center justify-center z-10 cursor-pointer" aria-label="Reproducir">
+                <div class="w-16 h-16 bg-primary/90 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                  <svg class="play-icon w-7 h-7 text-dark ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  <svg class="pause-icon w-7 h-7 text-dark hidden" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                  </svg>
+                </div>
+              </button>
+
+              <!-- Audio toggle -->
+              {v.hasAudio && (
+                <button class="audio-toggle absolute bottom-16 right-4 z-20 w-10 h-10 bg-dark/70 rounded-full flex items-center justify-center border border-white/20 hover:bg-primary hover:text-dark hover:border-primary transition-all" aria-label="Activar audio">
+                  <svg class="muted-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                  </svg>
+                  <svg class="unmuted-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  </svg>
+                </button>
+              )}
+
+              <!-- Label -->
+              <div class="absolute top-4 left-4 z-10">
+                <span class="bg-primary text-dark text-[10px] font-heading font-bold tracking-widest uppercase px-3 py-1">
+                  {v.label}
+                </span>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div class="p-4">
+              <h3 class="font-heading text-lg font-bold uppercase tracking-tight mb-1">{v.title}</h3>
+              <p class="text-white/60 text-xs leading-relaxed">{v.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.video-play-btn').forEach(btn => {
+    const container = btn.closest('.group');
+    const video = container?.querySelector('.trainer-video') as HTMLVideoElement;
+    const playIcon = btn.querySelector('.play-icon');
+    const pauseIcon = btn.querySelector('.pause-icon');
+
+    if (!video || !playIcon || !pauseIcon) return;
+
+    btn.addEventListener('click', () => {
+      if (video.paused) {
+        // Pause all other videos first
+        document.querySelectorAll('.trainer-video').forEach(v => {
+          const otherVideo = v as HTMLVideoElement;
+          if (otherVideo !== video && !otherVideo.paused) {
+            otherVideo.pause();
+            const otherContainer = otherVideo.closest('.group');
+            const otherPlay = otherContainer?.querySelector('.play-icon');
+            const otherPause = otherContainer?.querySelector('.pause-icon');
+            otherPlay?.classList.remove('hidden');
+            otherPause?.classList.add('hidden');
+          }
+        });
+
+        video.play();
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+      } else {
+        video.pause();
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+      }
+    });
+  });
+
+  // Audio toggle
+  document.querySelectorAll('.audio-toggle').forEach(btn => {
+    const container = btn.closest('.group');
+    const video = container?.querySelector('.trainer-video') as HTMLVideoElement;
+    const mutedIcon = btn.querySelector('.muted-icon');
+    const unmutedIcon = btn.querySelector('.unmuted-icon');
+
+    if (!video || !mutedIcon || !unmutedIcon) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      if (video.muted) {
+        mutedIcon.classList.remove('hidden');
+        unmutedIcon.classList.add('hidden');
+      } else {
+        mutedIcon.classList.add('hidden');
+        unmutedIcon.classList.remove('hidden');
+      }
+    });
+  });
+</script>

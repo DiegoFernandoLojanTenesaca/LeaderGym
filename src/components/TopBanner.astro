@@ -1,0 +1,38 @@
+---
+---
+
+<div id="top-banner" class="bg-primary text-dark text-center py-2.5 px-4 relative z-[60]">
+  <div class="flex items-center justify-center gap-3 flex-wrap">
+    <span class="font-heading text-sm md:text-base tracking-wider uppercase font-bold">
+      Primera clase GRATIS
+    </span>
+    <span class="hidden sm:inline text-dark/60">|</span>
+    <span class="text-xs md:text-sm font-medium text-dark/80">
+      Reserva ahora y empieza tu transformaci&oacute;n
+    </span>
+    <a
+      href="https://wa.me/593990039794?text=Hola!%20Quiero%20mi%20clase%20gratis"
+      target="_blank"
+      rel="noopener"
+      class="bg-dark text-primary px-4 py-1 text-xs font-heading tracking-wider uppercase font-bold hover:bg-dark/80 transition-colors ml-2"
+    >
+      Reservar &rarr;
+    </a>
+  </div>
+  <button id="close-banner" class="absolute right-3 top-1/2 -translate-y-1/2 text-dark/60 hover:text-dark transition-colors" aria-label="Cerrar">
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.getElementById('close-banner')?.addEventListener('click', () => {
+    const banner = document.getElementById('top-banner');
+    if (banner) {
+      banner.style.transform = 'translateY(-100%)';
+      banner.style.transition = 'transform 0.3s ease';
+      setTimeout(() => banner.remove(), 300);
+    }
+  });
+</script>

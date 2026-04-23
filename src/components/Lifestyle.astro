@@ -1,0 +1,91 @@
+---
+const images = [
+  { src: "/images/gym5.jpg", alt: "Funcional - Leader Gym" },
+  { src: "/images/premios.jpg", alt: "Premios y competencias - Leader Gym" },
+  { src: "/images/meme.jpg", alt: "Interior Leader Gym" },
+  { src: "/images/gym4.jpg", alt: "Artes de Combate - Leader Gym" },
+];
+---
+
+<section id="nosotros" class="section-padding bg-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-in text-center mb-16">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">M&aacute;s que un gym</p>
+      <h2 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight">
+        Es Identidad
+      </h2>
+      <p class="text-white/80 mt-6 max-w-2xl mx-auto text-lg">
+        Leader Gym&reg; naci&oacute; en Loja con un sue&ntilde;o: crear un espacio donde cada persona pueda alcanzar su <strong class="text-primary">Figura Extrema</strong>. Somos comunidad, disciplina y pasi&oacute;n.
+      </p>
+    </div>
+
+    <!-- Marquee text -->
+    <div class="overflow-hidden py-12 -mx-[5%]">
+      <div class="marquee flex whitespace-nowrap">
+        <span class="font-heading text-6xl md:text-8xl font-bold uppercase text-white/[0.04] tracking-tight mx-8">
+          FUERZA &bull; DISCIPLINA &bull; COMUNIDAD &bull; TRANSFORMACI&Oacute;N &bull; IDENTIDAD &bull; LEADER &bull;
+        </span>
+        <span class="font-heading text-6xl md:text-8xl font-bold uppercase text-white/[0.04] tracking-tight mx-8">
+          FUERZA &bull; DISCIPLINA &bull; COMUNIDAD &bull; TRANSFORMACI&Oacute;N &bull; IDENTIDAD &bull; LEADER &bull;
+        </span>
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {images.map((img, i) => (
+        <div
+          class="scale-in relative overflow-hidden group aspect-square"
+          style={`transition-delay: ${i * 100}ms`}
+        >
+          <img
+            src={img.src}
+            alt={img.alt}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-500"></div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Animated Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
+      <div class="fade-in text-center">
+        <p class="font-heading text-4xl md:text-5xl font-bold text-primary">
+          <span data-counter data-target="1000">0</span><span>+</span>
+        </p>
+        <p class="font-heading text-sm tracking-[0.15em] uppercase text-white/70 mt-2">Seguidores</p>
+      </div>
+      <div class="fade-in text-center" style="transition-delay: 100ms">
+        <p class="font-heading text-4xl md:text-5xl font-bold text-primary">
+          <span>5.0</span>
+        </p>
+        <p class="font-heading text-sm tracking-[0.15em] uppercase text-white/70 mt-2">Rating Google</p>
+      </div>
+      <div class="fade-in text-center" style="transition-delay: 200ms">
+        <p class="font-heading text-4xl md:text-5xl font-bold text-primary">
+          <span data-counter data-target="50">0</span><span>+</span>
+        </p>
+        <p class="font-heading text-sm tracking-[0.15em] uppercase text-white/70 mt-2">Clases semanales</p>
+      </div>
+      <div class="fade-in text-center" style="transition-delay: 300ms">
+        <p class="font-heading text-4xl md:text-5xl font-bold text-primary">
+          <span data-counter data-target="2025">0</span>
+        </p>
+        <p class="font-heading text-sm tracking-[0.15em] uppercase text-white/70 mt-2">Inauguraci&oacute;n</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .marquee {
+    animation: marquee 20s linear infinite;
+  }
+</style>

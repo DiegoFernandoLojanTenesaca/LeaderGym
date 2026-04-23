@@ -1,0 +1,191 @@
+---
+const promos = [
+  {
+    tag: "Gym",
+    title: "MUSCULACIÓN",
+    description: "Equipamiento de última generación. Abrimos desde las 05:00. No cerramos al medio día.",
+    cta: "Más Info",
+    image: "/images/gym2.jpg",
+    hours: "L-V 05:00-22:30 · Sáb 08:00-18:00",
+  },
+  {
+    tag: "MMA",
+    title: "ARTES DE COMBATE",
+    description: "MMA, Boxeo, Jiu Jitsu y Defensa Personal. Programa para niños desde 5 años y adultos.",
+    cta: "Más Info",
+    image: "/images/gym4.jpg",
+    hours: "Niños 15:00-18:00 · Adultos 15:00-22:00",
+  },
+  {
+    tag: "Baile",
+    title: "BAILOTERAPIA",
+    description: "Entrena bailando con la mejor energía. Quema calorías mientras te diviertes.",
+    cta: "Inscribirse",
+    image: "/images/gym3.jpg",
+    hours: "L-V 07:00-08:00 · 19:00-20:00",
+  },
+  {
+    tag: "Funcional",
+    title: "ENTRENAMIENTO FUNCIONAL",
+    description: "Mejora tu fuerza, resistencia y movilidad con ejercicios funcionales para todos los niveles.",
+    cta: "Más Info",
+    image: "/images/gym5.jpg",
+    hours: "L-V 06:00-09:00 · 18:00-19:00",
+  },
+  {
+    tag: "Culturismo",
+    title: "COMPETICIÓN & PREP",
+    description: "Preparación profesional para competencias de culturismo y fitness. Entrenadores especializados.",
+    cta: "Inscribirse",
+    image: "/images/premios.jpg",
+    hours: "Horarios personalizados",
+  },
+  {
+    tag: "Nuevo",
+    title: "EMPIEZA HOY",
+    description: "Ven a conocer nuestras nuevas instalaciones en Bolívar entre Lourdes y Catacocha.",
+    cta: "Reservar",
+    image: "/images/gym1.jpg",
+    hours: "Escríbenos por WhatsApp",
+  },
+];
+---
+
+<section id="clases" class="section-padding bg-dark">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-in text-center mb-16">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Nuestros programas</p>
+      <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase">Lo Que Ofrecemos</h2>
+    </div>
+
+    <!-- Carousel -->
+    <div class="relative">
+      <div id="promo-carousel" class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 -mx-2 px-2 hide-scrollbar">
+        {promos.map((promo, i) => (
+          <a
+            href="https://wa.me/593990039794?text=Hola!%20Quiero%20info%20sobre%20Leader%20Gym"
+            target="_blank"
+            rel="noopener"
+            class="snap-start flex-shrink-0 w-[280px] md:w-[320px] group relative overflow-hidden cursor-pointer"
+          >
+            <!-- Image -->
+            <div class="relative aspect-[3/4] overflow-hidden">
+              <img
+                src={promo.image}
+                alt={promo.title}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/40 to-transparent"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <span class="inline-block bg-primary text-dark text-[10px] font-heading font-semibold tracking-[0.15em] uppercase px-3 py-1 mb-3">
+                {promo.tag}
+              </span>
+              <h3 class="font-heading text-xl md:text-2xl font-bold uppercase mb-2 tracking-tight">
+                {promo.title}
+              </h3>
+              <p class="text-white/80 text-sm mb-2 leading-relaxed">
+                {promo.description}
+              </p>
+              <p class="text-primary/80 text-xs font-heading tracking-wider uppercase mb-4">
+                {promo.hours}
+              </p>
+              <span class="font-heading text-sm tracking-[0.15em] uppercase text-primary group-hover:tracking-[0.25em] transition-all duration-300">
+                {promo.cta} &rarr;
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Nav arrows -->
+      <button
+        id="promo-prev"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-12 h-12 bg-dark/80 border border-white/10 flex items-center justify-center hover:bg-primary hover:text-dark hover:border-primary transition-all duration-300 hidden md:flex"
+        aria-label="Anterior"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        id="promo-next"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-12 h-12 bg-dark/80 border border-white/10 flex items-center justify-center hover:bg-primary hover:text-dark hover:border-primary transition-all duration-300 hidden md:flex"
+        aria-label="Siguiente"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dots -->
+      <div class="flex justify-center gap-2 mt-6">
+        {promos.map((_, i) => (
+          <button
+            class="promo-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-300"
+            data-index={i}
+            aria-label={`Ir a slide ${i + 1}`}
+          ></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById('promo-carousel');
+  const prevBtn = document.getElementById('promo-prev');
+  const nextBtn = document.getElementById('promo-next');
+  const dots = document.querySelectorAll('.promo-dot');
+
+  if (carousel && prevBtn && nextBtn) {
+    const cardWidth = 340; // card width + gap
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+
+    // Update active dot on scroll
+    const updateDots = () => {
+      const scrollPos = carousel.scrollLeft;
+      const activeIndex = Math.round(scrollPos / cardWidth);
+      dots.forEach((dot, i) => {
+        if (i === activeIndex) {
+          dot.classList.remove('bg-white/20', 'w-2');
+          dot.classList.add('bg-primary', 'w-6');
+        } else {
+          dot.classList.remove('bg-primary', 'w-6');
+          dot.classList.add('bg-white/20', 'w-2');
+        }
+      });
+    };
+
+    carousel.addEventListener('scroll', updateDots, { passive: true });
+    updateDots();
+
+    // Click dots to navigate
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const index = parseInt((dot as HTMLElement).dataset.index || '0');
+        carousel.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+      });
+    });
+  }
+</script>
