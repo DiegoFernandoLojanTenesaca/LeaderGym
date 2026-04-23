@@ -62,11 +62,8 @@ const promos = [
     <div class="relative">
       <div id="promo-carousel" class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 -mx-2 px-2 hide-scrollbar">
         {promos.map((promo, i) => (
-          <a
-            href="https://wa.me/593990039794?text=Hola!%20Quiero%20info%20sobre%20Leader%20Gym"
-            target="_blank"
-            rel="noopener"
-            class="snap-start flex-shrink-0 w-[280px] md:w-[320px] group relative overflow-hidden cursor-pointer"
+          <div
+            class="snap-start flex-shrink-0 w-[280px] md:w-[320px] group relative overflow-hidden"
           >
             <!-- Image -->
             <div class="relative aspect-[3/4] overflow-hidden">
@@ -90,14 +87,11 @@ const promos = [
               <p class="text-white/80 text-sm mb-2 leading-relaxed">
                 {promo.description}
               </p>
-              <p class="text-primary/80 text-xs font-heading tracking-wider uppercase mb-4">
+              <p class="text-primary/80 text-xs font-heading tracking-wider uppercase">
                 {promo.hours}
               </p>
-              <span class="font-heading text-sm tracking-[0.15em] uppercase text-primary group-hover:tracking-[0.25em] transition-all duration-300">
-                {promo.cta} &rarr;
-              </span>
             </div>
-          </a>
+          </div>
         ))}
       </div>
 
