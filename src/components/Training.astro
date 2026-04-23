@@ -1,0 +1,74 @@
+---
+const methods = [
+  {
+    label: "Musculación & Funcional",
+    title: "ENTRENA EN NUESTRAS NUEVAS INSTALACIONES",
+    description: "Equipamiento de última generación en nuestro nuevo espacio en Loja. Musculación desde las 05:00 y clases de Funcional para todos los niveles. Esto no es solo un gimnasio — es tu casa, tu proceso, tu transformación.",
+    features: ["Musculación L-V 05:00-22:30", "Funcional 06:00-09:00 / 18:00-19:00", "Entrenadores certificados", "Nuevas instalaciones"],
+    image: "/images/gym2.jpg",
+  },
+  {
+    label: "Artes de Combate",
+    title: "MMA, BOXEO, JIU JITSU & DEFENSA PERSONAL",
+    description: "Programa completo de Artes Marciales Mixtas para niños desde 5 años y adultos. Disciplina, confianza, carácter y condición física. Además, Bailoterapia y clases grupales.",
+    features: ["Niños: 15:00 - 18:00", "Jóvenes y adultos: 15:00 - 22:00", "Disciplina & confianza", "Bailoterapia L-V"],
+    image: "/images/gym4.jpg",
+  },
+];
+---
+
+<section id="entrenamiento" class="section-padding bg-dark-light">
+  <div class="max-w-7xl mx-auto">
+    <div class="fade-in text-center mb-20">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Dos formas de entrenar</p>
+      <h2 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight">
+        Tu Entrenamiento<br />Tu Estilo
+      </h2>
+    </div>
+
+    <div class="space-y-24">
+      {methods.map((method, i) => (
+        <div class={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}>
+          <!-- Image -->
+          <div class={`${i % 2 === 0 ? 'fade-in-left' : 'fade-in-right'} w-full lg:w-1/2`}>
+            <div class="relative overflow-hidden group bg-dark-card">
+              <img
+                src={method.image}
+                alt={method.title}
+                data-parallax="0.08"
+                class="w-full aspect-[3/4] object-contain transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute top-6 left-6">
+                <span class="bg-primary text-dark font-heading font-semibold text-xs tracking-[0.2em] uppercase px-4 py-2">
+                  {method.label}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class={`${i % 2 === 0 ? 'fade-in-right' : 'fade-in-left'} w-full lg:w-1/2 space-y-6`}>
+            <h3 class="font-heading text-3xl md:text-4xl font-bold uppercase tracking-tight leading-tight">
+              {method.title}
+            </h3>
+            <p class="text-white/80 text-lg leading-relaxed">
+              {method.description}
+            </p>
+            <ul class="grid grid-cols-2 gap-3">
+              {method.features.map((feat) => (
+                <li class="flex items-center gap-3 text-white">
+                  <span class="w-2 h-2 bg-primary flex-shrink-0"></span>
+                  <span class="text-sm">{feat}</span>
+                </li>
+              ))}
+            </ul>
+            <a href="#membresias" class="btn-primary inline-block mt-4">
+              {i === 0 ? 'Visítanos' : 'Más Información'}
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

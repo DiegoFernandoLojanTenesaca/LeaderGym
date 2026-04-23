@@ -1,0 +1,109 @@
+---
+const navLinks = [
+  { label: 'Entrenamiento', href: '#entrenamiento' },
+  { label: 'Clases', href: '#clases' },
+  { label: 'Membresías', href: '#membresias' },
+  { label: 'Nuevos', href: '#nuevos' },
+  { label: 'Nosotros', href: '#nosotros' },
+];
+---
+
+<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+  <div class="flex items-center justify-between px-6 md:px-12 py-3">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 group">
+      <img
+        src="/images/icon.jpg"
+        alt="Leader Gym"
+        class="w-11 h-11 object-contain rounded"
+      />
+      <div class="hidden sm:flex flex-col leading-none">
+        <span class="font-heading text-primary text-xl tracking-[0.15em] uppercase font-bold leading-none">
+          Leader Gym
+        </span>
+        <span class="text-white/70 text-xs tracking-[0.2em] uppercase font-heading mt-0.5">
+          Figura Extrema
+        </span>
+      </div>
+    </a>
+
+    <!-- Nav Desktop -->
+    <nav class="hidden lg:flex items-center gap-8">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="font-heading text-base tracking-[0.15em] uppercase text-white hover:text-primary transition-colors duration-300 font-medium"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- CTA + Mobile Toggle -->
+    <div class="flex items-center gap-4">
+      <a href="https://wa.me/593990039794?text=Hola!%20Quiero%20reservar%20una%20clase" target="_blank" rel="noopener" class="hidden md:inline-block btn-primary text-sm py-3 px-7">
+        Reservar Ahora
+      </a>
+
+      <!-- Hamburger -->
+      <button id="mobile-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Menú">
+        <span class="hamburger-line w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-white transition-all duration-300"></span>
+        <span class="hamburger-line w-4 h-0.5 bg-white transition-all duration-300 ml-auto"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-dark z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500">
+    <button id="mobile-close" class="absolute top-6 right-6 text-white p-2" aria-label="Cerrar menú">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <img src="/images/logo-text.jpg" alt="Leader Gym" class="w-48 object-contain rounded-lg mb-4" />
+
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="mobile-link font-heading text-3xl tracking-[0.2em] uppercase text-white hover:text-primary transition-colors"
+      >
+        {link.label}
+      </a>
+    ))}
+    <a href="https://wa.me/593990039794" target="_blank" rel="noopener" class="btn-primary mt-4">Reservar Ahora</a>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('main-header')!;
+  const toggle = document.getElementById('mobile-toggle')!;
+  const menu = document.getElementById('mobile-menu')!;
+  const close = document.getElementById('mobile-close')!;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      header.classList.add('bg-dark/95', 'backdrop-blur-md', 'shadow-lg');
+    } else {
+      header.classList.remove('bg-dark/95', 'backdrop-blur-md', 'shadow-lg');
+    }
+  });
+
+  toggle.addEventListener('click', () => {
+    menu.classList.remove('opacity-0', 'pointer-events-none');
+    menu.classList.add('opacity-100', 'pointer-events-auto');
+    document.body.style.overflow = 'hidden';
+  });
+
+  const closeMenu = () => {
+    menu.classList.add('opacity-0', 'pointer-events-none');
+    menu.classList.remove('opacity-100', 'pointer-events-auto');
+    document.body.style.overflow = '';
+  };
+
+  close.addEventListener('click', closeMenu);
+  menu.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

@@ -1,0 +1,82 @@
+---
+const days = ['Lun', 'Mar', 'Mi\u00e9', 'Jue', 'Vie', 'S\u00e1b'];
+
+const classes = [
+  { time: '05:00', name: 'Musculación', days: [1,1,1,1,1,0], color: 'bg-white/10' },
+  { time: '06:00', name: 'Funcional', days: [1,1,1,1,1,0], color: 'bg-primary/20' },
+  { time: '07:00', name: 'Bailoterapia', days: [1,1,1,1,1,0], color: 'bg-[#e040fb]/20' },
+  { time: '08:00', name: 'Musculación', days: [1,1,1,1,1,1], color: 'bg-white/10' },
+  { time: '09:00', name: 'Funcional', days: [1,1,1,1,1,0], color: 'bg-primary/20' },
+  { time: '15:00', name: 'MMA Niños', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
+  { time: '15:00', name: 'MMA Adultos', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
+  { time: '18:00', name: 'Funcional', days: [1,1,1,1,1,1], color: 'bg-primary/20' },
+  { time: '19:00', name: 'Bailoterapia', days: [1,1,1,1,1,0], color: 'bg-[#e040fb]/20' },
+  { time: '19:00', name: 'MMA Adultos', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
+  { time: '20:00', name: 'Musculación', days: [1,1,1,1,1,0], color: 'bg-white/10' },
+];
+---
+
+<section class="section-padding bg-dark-light">
+  <div class="max-w-6xl mx-auto">
+    <div class="fade-in text-center mb-16">
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Planifica tu semana</p>
+      <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight">
+        Horario de Clases
+      </h2>
+    </div>
+
+    <!-- Desktop Table -->
+    <div class="fade-in hidden md:block overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr>
+            <th class="p-4 text-left font-heading text-sm tracking-[0.2em] uppercase text-white/50 border-b border-white/10">Hora</th>
+            {days.map(d => (
+              <th class="p-4 text-center font-heading text-sm tracking-[0.2em] uppercase text-white/50 border-b border-white/10">{d}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {classes.map((c) => (
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="p-4 font-heading text-lg font-semibold text-primary border-b border-white/5">{c.time}</td>
+              {c.days.map((active) => (
+                <td class="p-3 text-center border-b border-white/5">
+                  {active ? (
+                    <span class={`inline-block ${c.color} px-3 py-2 text-xs font-heading tracking-wider uppercase font-medium rounded-sm w-full`}>
+                      {c.name}
+                    </span>
+                  ) : (
+                    <span class="text-white/10">—</span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="md:hidden space-y-3">
+      {classes.map((c, i) => (
+        <div class={`fade-in flex items-center gap-4 p-4 ${c.color} border border-white/5`} style={`transition-delay: ${i * 80}ms`}>
+          <span class="font-heading text-2xl font-bold text-primary w-16 flex-shrink-0">{c.time}</span>
+          <div>
+            <p class="font-heading text-base uppercase tracking-wide font-semibold">{c.name}</p>
+            <p class="text-white/50 text-xs mt-1">
+              {days.filter((_, di) => c.days[di]).join(' · ')}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="fade-in text-center mt-10">
+      <p class="text-white/50 text-sm mb-4">Horarios sujetos a cambios. Consulta disponibilidad.</p>
+      <a href="https://wa.me/593990039794?text=Hola!%20Quiero%20info%20sobre%20los%20horarios" target="_blank" rel="noopener" class="btn-primary">
+        Consultar Horarios
+      </a>
+    </div>
+  </div>
+</section>

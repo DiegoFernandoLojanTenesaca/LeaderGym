@@ -1,0 +1,67 @@
+---
+---
+
+<section class="relative py-16 overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 bg-primary"></div>
+  <div class="absolute inset-0 bg-[url('/images/meme.jpg')] bg-cover bg-center opacity-15"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+    <p class="font-heading text-dark text-sm md:text-base tracking-[0.4em] uppercase mb-3 font-bold">Oferta de lanzamiento</p>
+    <h2 class="font-heading text-3xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-dark mb-8">
+      Membres&iacute;a con 30% de Descuento
+    </h2>
+
+    <!-- Countdown -->
+    <div class="flex items-center justify-center gap-4 md:gap-8 mb-8">
+      {['D\u00edas', 'Horas', 'Min', 'Seg'].map((label, i) => (
+        <div class="text-center">
+          <div class="bg-dark w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+            <span class={`font-heading text-3xl md:text-4xl font-bold text-primary countdown-num`} data-countdown-unit={['days','hours','minutes','seconds'][i]}>
+              00
+            </span>
+          </div>
+          <p class="font-heading text-[10px] md:text-xs tracking-[0.15em] uppercase text-dark/70 mt-2 font-semibold">{label}</p>
+        </div>
+      ))}
+    </div>
+
+    <a
+      href="https://wa.me/593990039794?text=Hola!%20Quiero%20aprovechar%20la%20oferta%20de%20lanzamiento"
+      target="_blank"
+      rel="noopener"
+      class="inline-block bg-dark text-primary px-10 py-4 font-heading text-sm tracking-[0.15em] uppercase font-bold hover:bg-dark/80 transition-colors"
+    >
+      Aprovechar Oferta
+    </a>
+  </div>
+</section>
+
+<script>
+  // Set target date to 15 days from now
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 15);
+
+  const update = () => {
+    const now = new Date().getTime();
+    const diff = targetDate.getTime() - now;
+
+    if (diff <= 0) return;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    const units = { days, hours, minutes, seconds };
+    Object.entries(units).forEach(([unit, val]) => {
+      const el = document.querySelector(`[data-countdown-unit="${unit}"]`);
+      if (el) el.textContent = pad(val);
+    });
+  };
+
+  update();
+  setInterval(update, 1000);
+</script>
