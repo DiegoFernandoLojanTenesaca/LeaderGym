@@ -1,24 +1,140 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = "Leader Gym®" } = Astro.props;
+const {
+  title = "Leader Gym® | Gimnasio en Loja, Ecuador - Figura Extrema",
+  description = "Leader Gym® - El mejor gimnasio en Loja, Ecuador. Musculación, MMA, Boxeo, Jiu Jitsu, Funcional, Bailoterapia y más. Abierto L-V 05:00-22:30. Bolívar entre Lourdes y Catacocha."
+} = Astro.props;
+
+const siteUrl = Astro.site?.href || "https://leader-gym.vercel.app";
+const ogImage = `${siteUrl}images/banner.png`;
 ---
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Leader Gym® - Figura Extrema. Gym, Clases Grupales, MMA y Culturismo en Loja, Ecuador. Más que ejercicio, es identidad." />
+
+  <!-- SEO Primary -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content="gimnasio Loja, gym Loja Ecuador, Leader Gym, Figura Extrema, musculación, MMA Loja, boxeo Loja, jiu jitsu, funcional, bailoterapia, artes marciales Loja, gimnasio Ecuador, entrenamiento personal Loja, culturismo Loja, clases grupales, defensa personal" />
+  <meta name="author" content="Leader Gym®" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={siteUrl} />
+
+  <!-- Geographic SEO -->
+  <meta name="geo.region" content="EC-L" />
+  <meta name="geo.placename" content="Loja, Ecuador" />
+  <meta name="geo.position" content="-4.0027815;-79.2017066" />
+  <meta name="ICBM" content="-4.0027815, -79.2017066" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="business.business" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={siteUrl} />
+  <meta property="og:site_name" content="Leader Gym®" />
+  <meta property="og:locale" content="es_EC" />
+  <meta property="business:contact_data:street_address" content="Bolívar entre Lourdes y Catacocha" />
+  <meta property="business:contact_data:locality" content="Loja" />
+  <meta property="business:contact_data:country_name" content="Ecuador" />
+  <meta property="business:contact_data:phone_number" content="+593990039794" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <title>{title}</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBPRR9W6Y5"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MBPRR9W6Y5');
+  </script>
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "GymOrFitnessCenter",
+    "name": "Leader Gym",
+    "alternateName": "Leader Gym® - Figura Extrema",
+    "description": "Gimnasio en Loja, Ecuador. Musculación, MMA, Boxeo, Jiu Jitsu, Funcional, Bailoterapia, Defensa Personal y más.",
+    "url": siteUrl,
+    "logo": `${siteUrl}images/icon.jpg`,
+    "image": ogImage,
+    "telephone": "+593990039794",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bolívar entre Lourdes y Catacocha",
+      "addressLocality": "Loja",
+      "addressRegion": "Loja",
+      "addressCountry": "EC"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -4.0027815,
+      "longitude": -79.2017066
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "05:00",
+        "closes": "22:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "18:00"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "6",
+      "bestRating": "5"
+    },
+    "sameAs": [
+      "https://www.instagram.com/leadergym_ec/",
+      "https://www.facebook.com/leadergym.fx/",
+      "https://www.tiktok.com/@leadergym.official",
+      "https://www.threads.com/@leadergym_ec"
+    ],
+    "priceRange": "$25 - $65 USD",
+    "currenciesAccepted": "USD",
+    "paymentAccepted": "Cash, Credit Card",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Membresías",
+      "itemListElement": [
+        { "@type": "Offer", "name": "Plan Básico", "price": "25", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Plan Pro", "price": "40", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Plan Elite", "price": "65", "priceCurrency": "USD" }
+      ]
+    }
+  })} />
 </head>
 <body>
   <!-- Loading Screen -->
@@ -33,6 +149,8 @@ const { title = "Leader Gym®" } = Astro.props;
   </div>
 
 <slot />
+
+  <Analytics />
 
   <script>
     // ========== LOADING SCREEN ==========
