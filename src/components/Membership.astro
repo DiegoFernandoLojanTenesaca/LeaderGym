@@ -95,14 +95,11 @@ const comparison = [
             ))}
           </ul>
 
-          <a
-            href={`https://wa.me/593990039794?text=Hola!%20Quiero%20info%20sobre%20el%20plan%20${encodeURIComponent(plan.name)}`}
-            target="_blank"
-            rel="noopener"
-            class={plan.highlighted ? 'btn-primary w-full text-center block' : 'btn-outline w-full text-center block'}
+          <span
+            class={plan.highlighted ? 'bg-primary/20 text-primary border border-primary/30 w-full text-center block px-6 py-3 font-heading text-sm tracking-[0.15em] uppercase font-bold' : 'border border-white/10 text-white/50 w-full text-center block px-6 py-3 font-heading text-sm tracking-[0.15em] uppercase font-bold'}
           >
-            Elegir Plan
-          </a>
+            {plan.price}{plan.period}
+          </span>
         </div>
       ))}
     </div>
