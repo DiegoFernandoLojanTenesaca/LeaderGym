@@ -1,82 +1,313 @@
 ---
-const days = ['Lun', 'Mar', 'Mi\u00e9', 'Jue', 'Vie', 'S\u00e1b'];
+const disciplines = ['Musculación', 'Funcional', 'Bailoterapia', 'MMA'];
+
+const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 const classes = [
-  { time: '05:00', name: 'Musculación', days: [1,1,1,1,1,0], color: 'bg-white/10' },
-  { time: '06:00', name: 'Funcional', days: [1,1,1,1,1,0], color: 'bg-primary/20' },
-  { time: '07:00', name: 'Bailoterapia', days: [1,1,1,1,1,0], color: 'bg-[#e040fb]/20' },
-  { time: '08:00', name: 'Musculación', days: [1,1,1,1,1,1], color: 'bg-white/10' },
-  { time: '09:00', name: 'Funcional', days: [1,1,1,1,1,0], color: 'bg-primary/20' },
-  { time: '15:00', name: 'MMA Niños', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
-  { time: '15:00', name: 'MMA Adultos', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
-  { time: '18:00', name: 'Funcional', days: [1,1,1,1,1,1], color: 'bg-primary/20' },
-  { time: '19:00', name: 'Bailoterapia', days: [1,1,1,1,1,0], color: 'bg-[#e040fb]/20' },
-  { time: '19:00', name: 'MMA Adultos', days: [1,1,1,1,1,0], color: 'bg-[#e30613]/20' },
-  { time: '20:00', name: 'Musculación', days: [1,1,1,1,1,0], color: 'bg-white/10' },
+  { time: '05:00', end: '06:00', name: 'Musculación', days: [1,1,1,1,1,0] },
+  { time: '06:00', end: '07:00', name: 'Funcional', days: [1,1,1,1,1,0] },
+  { time: '07:00', end: '08:00', name: 'Bailoterapia', days: [1,1,1,1,1,0] },
+  { time: '08:00', end: '09:00', name: 'Musculación', days: [1,1,1,1,1,1] },
+  { time: '09:00', end: '10:00', name: 'Funcional', days: [1,1,1,1,1,0] },
+  { time: '15:00', end: '18:00', name: 'MMA Niños', days: [1,1,1,1,1,0] },
+  { time: '15:00', end: '22:00', name: 'MMA Adultos', days: [1,1,1,1,1,0] },
+  { time: '18:00', end: '19:00', name: 'Funcional', days: [1,1,1,1,1,1] },
+  { time: '19:00', end: '20:00', name: 'Bailoterapia', days: [1,1,1,1,1,0] },
+  { time: '20:00', end: '22:30', name: 'Musculación', days: [1,1,1,1,1,0] },
 ];
+
+function getCategory(name: string): string {
+  return name.startsWith('MMA') ? 'MMA' : name;
+}
 ---
 
-<section class="section-padding bg-dark-light">
-  <div class="max-w-6xl mx-auto">
-    <div class="fade-in text-center mb-16">
+<section class="section-padding bg-dark-light" id="horario">
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Header -->
+    <div class="fade-in text-center mb-12">
       <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Planifica tu semana</p>
       <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight">
         Horario de Clases
       </h2>
     </div>
 
-    <!-- Desktop Table -->
-    <div class="fade-in hidden md:block overflow-x-auto">
-      <table class="w-full border-collapse">
-        <thead>
-          <tr>
-            <th class="p-4 text-left font-heading text-sm tracking-[0.2em] uppercase text-white/50 border-b border-white/10">Hora</th>
-            {days.map(d => (
-              <th class="p-4 text-center font-heading text-sm tracking-[0.2em] uppercase text-white/50 border-b border-white/10">{d}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {classes.map((c) => (
-            <tr class="hover:bg-white/5 transition-colors">
-              <td class="p-4 font-heading text-lg font-semibold text-primary border-b border-white/5">{c.time}</td>
-              {c.days.map((active) => (
-                <td class="p-3 text-center border-b border-white/5">
-                  {active ? (
-                    <span class={`inline-block ${c.color} px-3 py-2 text-xs font-heading tracking-wider uppercase font-medium rounded-sm w-full`}>
-                      {c.name}
-                    </span>
-                  ) : (
-                    <span class="text-white/10">—</span>
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Mobile Cards -->
-    <div class="md:hidden space-y-3">
-      {classes.map((c, i) => (
-        <div class={`fade-in flex items-center gap-4 p-4 ${c.color} border border-white/5`} style={`transition-delay: ${i * 80}ms`}>
-          <span class="font-heading text-2xl font-bold text-primary w-16 flex-shrink-0">{c.time}</span>
-          <div>
-            <p class="font-heading text-base uppercase tracking-wide font-semibold">{c.name}</p>
-            <p class="text-white/50 text-xs mt-1">
-              {days.filter((_, di) => c.days[di]).join(' · ')}
-            </p>
-          </div>
-        </div>
+    <!-- Filters -->
+    <div class="fade-in flex flex-wrap justify-center gap-2 mb-6" id="sched-filters">
+      <button class="sched-filter active" data-filter="all">Todos</button>
+      {disciplines.map(d => (
+        <button class="sched-filter" data-filter={d}>{d}</button>
       ))}
     </div>
 
+    <!-- Day Tabs -->
+    <div class="fade-in flex justify-center gap-1 sm:gap-2 mb-10" id="sched-tabs">
+      {days.map((d, i) => (
+        <button class="sched-tab" data-day={i}>{d}</button>
+      ))}
+    </div>
+
+    <!-- Day Panels -->
+    <div id="sched-panels">
+      {days.map((_, dayIndex) => {
+        const dayClasses = classes.filter(c => c.days[dayIndex]);
+        return (
+          <div class="sched-panel hidden" data-panel={dayIndex}>
+            {dayClasses.length > 0 ? (
+              <div class="relative pl-9 md:pl-10">
+                {/* Timeline line */}
+                <div class="sched-line absolute left-[6px] top-3 bottom-3 w-[2px] bg-white/10"></div>
+
+                <div class="space-y-3">
+                  {dayClasses.map((c) => {
+                    const cat = getCategory(c.name);
+                    return (
+                      <div class="sched-card relative" data-discipline={cat} data-start={c.time} data-end={c.end}>
+                        {/* Timeline dot */}
+                        <div class="sched-dot absolute -left-9 md:-left-10 top-[18px] w-[14px] h-[14px] rounded-full z-10 border-2 border-primary bg-primary/20"></div>
+
+                        {/* Card */}
+                        <div class="sched-card-inner p-4 md:p-5 rounded-xl border border-primary/15 bg-primary/[0.03]">
+                          <div class="flex items-center justify-between gap-3">
+                            <div class="min-w-0">
+                              <p class="text-white/40 text-xs font-mono tracking-wider">{c.time} — {c.end}</p>
+                              <h4 class="font-heading text-lg md:text-xl font-bold uppercase tracking-wide mt-0.5 text-primary">{c.name}</h4>
+                            </div>
+                            {/* EN VIVO badge - shown via JS */}
+                            <div class="live-badge hidden items-center gap-1.5 px-3 py-1 rounded-full flex-shrink-0 border"
+                                 style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.35)">
+                              <span class="w-2 h-2 rounded-full bg-red-500 live-pulse"></span>
+                              <span class="text-red-400 text-[10px] font-heading font-bold tracking-[0.15em] uppercase">En vivo</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div class="text-center py-16 text-white/25">
+                <p class="font-heading text-2xl uppercase tracking-wide">Cerrado</p>
+                <p class="text-sm mt-2">Nos vemos el lunes</p>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Empty filter message -->
+    <div id="sched-empty" class="hidden text-center py-14 text-white/25">
+      <p class="font-heading text-xl uppercase tracking-wide">No hay clases</p>
+      <p class="text-sm mt-2">Prueba otro filtro o día</p>
+    </div>
+
+    <!-- Footer -->
     <div class="fade-in text-center mt-10">
-      <p class="text-white/50 text-sm mb-4">Horarios sujetos a cambios. Consulta disponibilidad.</p>
+      <p class="text-white/50 text-sm mb-3">Horarios sujetos a cambios. Consulta disponibilidad.</p>
       <p class="text-white/60 text-xs font-heading tracking-wider uppercase">
         Bol&iacute;var entre Lourdes y Catacocha, Loja
       </p>
     </div>
   </div>
 </section>
+
+<style>
+  .sched-tab {
+    padding: 8px 14px;
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: transparent;
+  }
+  .sched-tab:hover {
+    color: rgba(255,255,255,0.65);
+    background: rgba(255,255,255,0.04);
+  }
+  .sched-tab.active {
+    color: var(--color-primary);
+    background: rgba(172,224,3,0.08);
+    border-color: rgba(172,224,3,0.25);
+  }
+
+  .sched-filter {
+    padding: 6px 14px;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: transparent;
+  }
+  .sched-filter:hover {
+    color: rgba(255,255,255,0.55);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .sched-filter.active {
+    color: var(--color-primary);
+    background: rgba(172,224,3,0.1);
+    border-color: var(--color-primary);
+  }
+
+  .sched-card-inner {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .sched-card-inner:hover {
+    transform: translateX(6px);
+    box-shadow: -4px 0 16px rgba(172,224,3,0.1);
+  }
+
+  .sched-card.is-live .sched-dot {
+    border-color: #ef4444 !important;
+    background: rgba(239,68,68,0.3) !important;
+    animation: dot-glow 2s ease-in-out infinite;
+  }
+  .sched-card.is-live .sched-card-inner {
+    border-color: rgba(239,68,68,0.3) !important;
+    box-shadow: 0 0 24px rgba(239,68,68,0.08);
+  }
+  .sched-card.is-live .live-badge {
+    display: flex !important;
+  }
+
+  .sched-card.filtered-out {
+    display: none;
+  }
+
+  .live-pulse {
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  @keyframes dot-glow {
+    0%, 100% { box-shadow: 0 0 4px rgba(239,68,68,0.3); }
+    50% { box-shadow: 0 0 12px rgba(239,68,68,0.6); }
+  }
+
+  @media (max-width: 640px) {
+    .sched-tab {
+      padding: 7px 10px;
+      font-size: 0.8rem;
+    }
+  }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll('.sched-tab');
+  const panels = document.querySelectorAll('.sched-panel');
+  const filters = document.querySelectorAll('.sched-filter');
+  const emptyMsg = document.getElementById('sched-empty');
+
+  let activeDay = 0;
+  let activeFilter = 'all';
+
+  // Ecuador timezone (UTC-5)
+  function getEcuadorNow(): Date {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc - 5 * 3600000);
+  }
+
+  function timeToMin(t: string): number {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function initDay(): void {
+    const ecNow = getEcuadorNow();
+    const jsDay = ecNow.getDay(); // 0=Sun
+    activeDay = jsDay === 0 ? 0 : jsDay - 1; // Sun → show Monday
+    showDay(activeDay);
+  }
+
+  function showDay(index: number): void {
+    activeDay = index;
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    panels.forEach((p, i) => {
+      (p as HTMLElement).classList.toggle('hidden', i !== index);
+    });
+    applyFilter();
+    checkLive();
+  }
+
+  function applyFilter(): void {
+    const panel = document.querySelector(`.sched-panel[data-panel="${activeDay}"]`);
+    if (!panel) return;
+
+    const cards = panel.querySelectorAll('.sched-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const disc = (card as HTMLElement).dataset.discipline || '';
+      const show = activeFilter === 'all' || disc === activeFilter;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visible++;
+    });
+
+    if (emptyMsg) {
+      const hasCards = cards.length > 0;
+      emptyMsg.classList.toggle('hidden', !hasCards || visible > 0);
+    }
+  }
+
+  function checkLive(): void {
+    const ecNow = getEcuadorNow();
+    const jsDay = ecNow.getDay();
+    const todayIndex = jsDay === 0 ? -1 : jsDay - 1;
+    const mins = ecNow.getHours() * 60 + ecNow.getMinutes();
+
+    // Clear all live states
+    document.querySelectorAll('.sched-card.is-live').forEach(c => c.classList.remove('is-live'));
+
+    // Only mark EN VIVO on the actual current day tab
+    if (activeDay !== todayIndex) return;
+
+    const panel = document.querySelector(`.sched-panel[data-panel="${activeDay}"]`);
+    if (!panel) return;
+
+    panel.querySelectorAll('.sched-card').forEach(card => {
+      const el = card as HTMLElement;
+      const start = timeToMin(el.dataset.start || '0');
+      const end = timeToMin(el.dataset.end || '0');
+      if (mins >= start && mins < end) {
+        el.classList.add('is-live');
+      }
+    });
+  }
+
+  // Tab clicks
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => showDay(i));
+  });
+
+  // Filter clicks
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = (btn as HTMLElement).dataset.filter || 'all';
+      filters.forEach(f => f.classList.toggle('active', f === btn));
+      applyFilter();
+    });
+  });
+
+  // Init
+  initDay();
+  // Refresh EN VIVO every 60s
+  setInterval(checkLive, 60000);
+</script>

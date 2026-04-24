@@ -1,85 +1,183 @@
 ---
-const testimonials = [
+/**
+ * Google Reviews dinámico.
+ *
+ * Para activar, agrega estas variables de entorno en Vercel:
+ *   GOOGLE_PLACES_API_KEY = tu API key (con Places API habilitado)
+ *   GOOGLE_PLACE_ID = el Place ID de Leader Gym
+ *
+ * Las reviews se traen en build time → se actualizan cada deploy.
+ * Si no hay API key, muestra los testimonios estáticos de abajo.
+ */
+
+interface GoogleReview {
+  authorAttribution: { displayName: string; photoUri?: string };
+  rating: number;
+  text?: { text: string };
+  relativePublishTimeDescription?: string;
+}
+
+interface PlaceResponse {
+  reviews?: GoogleReview[];
+  rating?: number;
+  userRatingCount?: number;
+}
+
+// Testimonios estáticos (fallback)
+const staticTestimonials = [
   {
     name: "Carlos M.",
     role: "Miembro desde 2025",
-    text: "Desde que empec\u00e9 en Leader Gym mi vida cambi\u00f3 completamente. Los entrenadores te motivan de verdad y las instalaciones son de otro nivel para Loja.",
+    text: "Desde que empecé en Leader Gym mi vida cambió completamente. Los entrenadores te motivan de verdad y las instalaciones son de otro nivel para Loja.",
     stars: 5,
+    photo: "",
   },
   {
-    name: "Mar\u00eda P.",
+    name: "María P.",
     role: "Clases grupales",
-    text: "Las clases grupales son incre\u00edbles, el ambiente te empuja a dar m\u00e1s. Me encanta la energ\u00eda que se siente apenas entras. 100% recomendado.",
+    text: "Las clases grupales son increíbles, el ambiente te empuja a dar más. Me encanta la energía que se siente apenas entras. 100% recomendado.",
     stars: 5,
+    photo: "",
   },
   {
-    name: "Andr\u00e9s R.",
+    name: "Andrés R.",
     role: "MMA & Culturismo",
-    text: "El programa de MMA es muy completo y profesional. Adem\u00e1s la preparaci\u00f3n para competencias de culturismo es seria. Aqu\u00ed se entrena de verdad.",
+    text: "El programa de MMA es muy completo y profesional. Además la preparación para competencias de culturismo es seria. Aquí se entrena de verdad.",
     stars: 5,
+    photo: "",
   },
   {
     name: "Valentina S.",
     role: "3 meses entrenando",
-    text: "Nunca me hab\u00eda sentido tan c\u00f3moda en un gym. El equipo te hace sentir parte de la familia desde el primer d\u00eda. Figura Extrema no es solo un slogan.",
+    text: "Nunca me había sentido tan cómoda en un gym. El equipo te hace sentir parte de la familia desde el primer día. Figura Extrema no es solo un slogan.",
     stars: 5,
+    photo: "",
   },
 ];
+
+// Intentar traer Google Reviews en build time
+const apiKey = import.meta.env.GOOGLE_PLACES_API_KEY || '';
+const placeId = import.meta.env.GOOGLE_PLACE_ID || '';
+
+let googleReviews: { name: string; role: string; text: string; stars: number; photo: string }[] = [];
+let googleRating = 0;
+let googleTotal = 0;
+let isGoogle = false;
+
+if (apiKey && placeId) {
+  try {
+    const res = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+      headers: {
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'reviews,rating,userRatingCount',
+      },
+    });
+    if (res.ok) {
+      const data: PlaceResponse = await res.json();
+      if (data.reviews && data.reviews.length > 0) {
+        googleReviews = data.reviews.slice(0, 4).map(r => ({
+          name: r.authorAttribution.displayName,
+          role: r.relativePublishTimeDescription || 'Google Review',
+          text: r.text?.text || '',
+          stars: r.rating || 5,
+          photo: r.authorAttribution.photoUri || '',
+        }));
+        googleRating = data.rating || 5;
+        googleTotal = data.userRatingCount || 0;
+        isGoogle = true;
+      }
+    }
+  } catch {
+    // Silently fallback to static
+  }
+}
+
+const reviews = isGoogle ? googleReviews : staticTestimonials;
+const displayRating = isGoogle ? googleRating : 5.0;
+const displayTotal = isGoogle ? googleTotal : 6;
+
+// SVG star path
+const starPath = "M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z";
 ---
 
-<section class="section-padding bg-dark-light overflow-hidden">
+<section class="section-padding bg-dark-light overflow-hidden" id="testimonios">
   <div class="max-w-7xl mx-auto">
     <div class="fade-in text-center mb-16">
-      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">Testimonios</p>
+      <p class="font-heading text-primary text-sm md:text-base tracking-[0.4em] uppercase mb-4 font-medium">
+        {isGoogle ? 'Google Reviews' : 'Testimonios'}
+      </p>
       <h2 class="font-heading text-4xl md:text-6xl font-bold uppercase tracking-tight">
         Lo Que Dicen<br />Nuestros Miembros
       </h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {testimonials.map((t, i) => (
+      {reviews.map((t, i) => (
         <div
           class="fade-in bg-dark border border-white/10 p-8 hover:border-primary/30 transition-all duration-500 group"
           style={`transition-delay: ${i * 120}ms`}
         >
-          <!-- Stars -->
+          {/* Author header with photo (if available) */}
+          {t.photo ? (
+            <div class="flex items-center gap-3 mb-5">
+              <img src={t.photo} alt={t.name} class="w-10 h-10 rounded-full object-cover bg-white/10" referrerpolicy="no-referrer" loading="lazy" />
+              <div>
+                <p class="font-heading text-sm font-semibold uppercase tracking-wide group-hover:text-primary transition-colors">{t.name}</p>
+                <p class="text-white/40 text-xs">{t.role}</p>
+              </div>
+            </div>
+          ) : null}
+
+          {/* Stars */}
           <div class="flex gap-1 mb-5">
             {Array.from({ length: t.stars }).map(() => (
               <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                <path d={starPath} />
               </svg>
             ))}
           </div>
 
-          <!-- Quote -->
+          {/* Quote */}
           <p class="text-white/80 text-sm leading-relaxed mb-6">
-            "{t.text}"
+            &ldquo;{t.text}&rdquo;
           </p>
 
-          <!-- Author -->
-          <div class="mt-auto">
-            <p class="font-heading text-lg font-semibold uppercase tracking-wide group-hover:text-primary transition-colors">
-              {t.name}
-            </p>
-            <p class="text-white/60 text-xs font-heading tracking-wider uppercase mt-1">
-              {t.role}
-            </p>
-          </div>
+          {/* Author (when no photo) */}
+          {!t.photo ? (
+            <div class="mt-auto">
+              <p class="font-heading text-lg font-semibold uppercase tracking-wide group-hover:text-primary transition-colors">
+                {t.name}
+              </p>
+              <p class="text-white/60 text-xs font-heading tracking-wider uppercase mt-1">
+                {t.role}
+              </p>
+            </div>
+          ) : null}
         </div>
       ))}
     </div>
 
-    <!-- Google Rating -->
-    <div class="fade-in flex items-center justify-center gap-4 mt-12 pt-8 border-t border-white/5">
-      <div class="flex gap-1">
-        {Array.from({ length: 5 }).map(() => (
-          <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
+    {/* Rating summary */}
+    <div class="fade-in flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 pt-8 border-t border-white/5">
+      <div class="flex items-center gap-3">
+        <div class="flex gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <svg class={`w-5 h-5 ${i < Math.round(displayRating) ? 'text-primary' : 'text-white/20'}`} fill="currentColor" viewBox="0 0 20 20">
+              <path d={starPath} />
+            </svg>
+          ))}
+        </div>
+        <span class="font-heading text-2xl font-bold">{displayRating.toFixed(1)}</span>
+        <span class="text-white/60 text-sm">en Google &bull; {displayTotal} opiniones</span>
       </div>
-      <span class="font-heading text-2xl font-bold">5.0</span>
-      <span class="text-white/60 text-sm">en Google &bull; 6 opiniones</span>
+      {isGoogle && (
+        <div class="flex items-center gap-1.5 text-white/40 text-xs">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+          </svg>
+          <span>Reviews verificadas de Google</span>
+        </div>
+      )}
     </div>
   </div>
 </section>
